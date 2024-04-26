@@ -1,0 +1,107 @@
+.circleAnim{
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .skill{
+    width: 160px;
+    height: 160px;
+    position: relative;
+  }
+  .outer{
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15), 
+                -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+    
+  
+  }
+  .inner{
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    box-shadow:inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2), 
+                inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+                -0.5px -0.5px 0px rgba(255, 255, 255, 1), 
+                0.5px 0.5px 0px rgba(0, 0, 0, 0.15), 
+                0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  #number{
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+#circle1{
+  fill: none;
+  stroke: blue;
+  stroke-width: 20px;
+  stroke-dasharray: 472;
+  stroke-dashoffset: 472;
+  animation: anim 2s linear forwards;
+  }
+
+/* #circle2{
+    fill: none;
+    stroke: red;
+    stroke-width: 20px;
+    stroke-dasharray: 472;
+    stroke-dashoffset: 472;
+    animation: animtwo 2s linear forwards;
+    }
+
+#circle3{
+        fill: none;
+        stroke: green;
+        stroke-width: 20px;
+        stroke-dasharray: 472;
+        stroke-dashoffset: 472;
+        animation: animthree 2s linear forwards;
+        } */
+
+  .Icon{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  @keyframes anim{
+   25%{
+    stroke-dashoffset: 200;
+
+   }
+   35%{
+    stroke-dashoffset: 180;
+   }
+   50%{
+    stroke-dashoffset: 150;
+   }
+   75%{
+    stroke-dashoffset: 120;
+   }
+   100%{
+    stroke-dashoffset: 100;
+   }
+
+  }
+  /* @keyframes animtwo {
+    100%{
+        stroke-dashoffset: 200;
+    }
+  }
+
+  @keyframes animthree {
+    100%{
+        stroke-dashoffset: 350;
+    }
+    
+  } */

@@ -1,0 +1,189 @@
+
+import { useEffect, useState, useMemo, useContext, useRef } from 'react'
+import { Link, useLocation, useNavigate} from 'react-router-dom'
+import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
+import { authContext } from '../context/AuthProvider';
+import Loader from './Loader';
+
+
+const C_login_01 = () => {
+
+  const { auth } = useContext(authContext)
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [isUserConfirmed, setIsUserConfirmed] = useState(true);
+
+  
+  const emailRef = useRef<any>();
+  const errorRef = useRef<any>();
+
+
+  useEffect(() => {
+    emailRef?.current?.focus()
+  }, [emailRef])
+
+  const [iserromsg, setIserromsg] = useState({
+    message: '',
+    errcode: 0
+  })
+
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+
+  useEffect(() => {
+
+    if (emailValue === "" || passwordValue === "") {
+      setIserromsg({ message: '', errcode: 0 })
+    }
+
+  }, [emailValue, passwordValue, auth])
+
+
+  const memonizedValue = useMemo(() => {
+
+    if (emailValue !== undefined &&
+      passwordValue !== undefined &&
+      passwordValue.length >= 8) {
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValid = emailRegex.test(emailValue);
+
+      return isValid
+    }
+
+  }, [emailValue, passwordValue])
+
+
+
+  return (
+
+    <div className="w-[100%] h-[100%] flex items-center justify-center flex-col ">
+
+      <div className="h-5">
+
+        <p ref={errorRef} className=' font-semi-bold text-md' aria-live='assertive'>{iserromsg.errcode === 0 || iserromsg.errcode === 404 || iserromsg.errcode === 101 ? iserromsg.message : ""}</p>
+      </div>
+      <label className="relative w-[90%] flex justify-center mt-4 mb-2">
+        <input id='emailText' 
+        type='text'
+         className="h-16 w-[100%] px-5 pb-1 flex justify-center text-2xl border-slate-500 border-[2px] focus:border-[3px] valid:border-[3px] rounded-md border-opacity-50 outline-none focus:border-blue-500 valid:border-blue-500  transition duration-100" required
+          value={emailValue}
+          ref={emailRef}
+          autoComplete='off'
+          onChange={(e) => { setEmailValue(e.target.value)}}
+        />
+
+        <span className="text-2xl text-slate-500 text-opacity-80 absolute left-0 top-3 mx-5  px-2 transition duration-200 input-text">Email</span>
+      </label>
+
+      <label className="relative w-[90%] flex justify-center mt-2">
+        <input id='passwordText'
+         type='password'
+          className="h-16 w-[100%] px-5 pb-1 flex justify-center text-2xl border-slate-500 border-[2px] focus:border-[3px] valid:border-[3px] rounded-md border-opacity-50 outline-none focus:border-blue-500 valid:border-blue-500  transition duration-100" required
+          value={passwordValue}
+          autoComplete='off'
+          onChange={(e) => { setPasswordValue(e.target.value) }}
+        />
+
+        <span className="text-2xl text-slate-500 text-opacity-80 absolute left-0 top-3 mx-5  px-2 transition duration-200 input-password ">Password</span>
+      </label>
+      <div className="h-5 my-2 flex w-[90%] px-2">
+        <p className='font-semi-bold text-md text-red-500'>{iserromsg.errcode === 400 || iserromsg.errcode === 401 ? iserromsg.message : ""}</p>
+      </div>
+
+      <button className='w-[90%] bg-blue-500 h-16 rounded-md text-white text-2xl font-semi-bold mt-1 disabled:opacity-75 flex justify-center items-center pr-14' disabled={memonizedValue ? false : true} onClick={async (e) => {
+        e.preventDefault();
+        try {
+          setIsUserConfirmed(false);
+          const response = await axios.post('/auth/login', {
+            email: emailValue,
+            password: passwordValue
+          }, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+          })
+          if (response && emailValue !== undefined && passwordValue !== undefined) {
+
+            setIsUserConfirmed(true);
+            const role = response.data.roles;
+            const userId = response?.data?.userId;
+            const accessToken = response.data.accessToken;
+            setAuth({ email: emailValue, password: passwordValue, roles: role, accessToken: accessToken })
+
+            sessionStorage.setItem("Roles", role );
+            sessionStorage.setItem("accessToken", accessToken)
+            sessionStorage.setItem("userId", userId)
+            console.log(userId);
+            if(role === 2001){
+
+              navigate('/costumer', {replace:true});
+            }
+            if(role === 1984){
+              
+              navigate('/dashboard_editor', {replace: true});
+            }
+            setEmailValue("")
+            setPasswordValue("")
+
+          }
+        }
+        catch (error: any) {
+          setIsUserConfirmed(true);
+          if (!error?.response) {
+            setIserromsg({ message: "No server Response", errcode: 100 })
+
+          } else if (error.response?.status === 404) {
+            setIserromsg({ message: "User not found!", errcode: 404 })
+
+
+          } else if (error.response?.status === 400) {
+            setIserromsg({ message: "Missing email or password", errcode: 400 })
+
+
+          } else if (error.response?.status === 401) {
+            setIserromsg({ message: "Incorrect email or password", errcode: 401 })
+
+          } else {
+            setIserromsg({ message: "Failed to login", errcode: 101 })
+
+          }
+          errorRef?.current?.focus();
+
+        }
+
+        return(<>
+        
+        </>)
+      }}>
+
+        <div className="w-6 h-6 mx-4">
+          {!isUserConfirmed && (<>
+            <Loader/>
+          </>)}
+        </div>
+        Login
+      </button> 
+
+      <div className="h-2 flex flex-row w-[90%] justify-center items-center text-center my-8">
+        <hr className=' border-2 border-slate-400 w-full ' />
+        <span className='mx-2 text-xl'>or</span>
+        <hr className=' border-2 border-slate-400 w-full ' />
+
+      </div>
+
+      <div className="flex flex-row w-[90%] mt-8 justify-between">
+        <button className='hover:bg-red-400 hover:bg-opacity-10 px-2 py-1 rounded-md text-red-600 font-medium text-[18px]'>Forget Password?</button>
+
+        <Link to='/user/register_n&e'>
+          <button className='hover:bg-blue-400 hover:bg-opacity-10 px-2 py-1 rounded-md text-blue-600 font-medium text-[18px]'>Create account</button>
+        </Link>
+
+      </div>
+    </div>
+  )
+}
+
+export default C_login_01
