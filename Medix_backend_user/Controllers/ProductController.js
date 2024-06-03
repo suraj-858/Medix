@@ -3,7 +3,6 @@ const asyncHandler = require('express-async-handler')
 const dotenv = require('dotenv');
 const cloudinary = require('cloudinary').v2
 const fs = require('fs');
-const { timeStamp } = require('console');
 
 dotenv.config();
 
@@ -178,9 +177,70 @@ const getAllProducts = asyncHandler(async(req, res) =>{
     }
 })
 
+const getLatestProducts = asyncHandler(async(req, res) =>{
+
+    try {
+        const lastIndex = req.query.lastIndex ? parseInt(req.query.lastIndex) : 0;
+        const totalIndexLength = (await Product.find({})).length
+        if(lastIndex < totalIndexLength){
+            const products = await Product.find({})
+            .sort({ createdAt: -1 })
+            .skip(lastIndex)
+            .limit(8);
+
+        if(products){
+            const nextIndex = lastIndex + products.length;
+            res.status(200).json({ products, nextIndex });
+        }
+
+        }else{
+            res.status(204).json({indexFull: true, message:"No Products to show"})
+        }
+
+    } catch (error) {
+
+        console.error('Error fetching latest products:', error);
+        res.status(500).json({ error: 'Internal server error' });
+        
+    }
+})
+
+const searchProducts = asyncHandler(async(req, res) =>{
+    try {
+        const query = req.query.value;
+        console.log(query);
+
+        if(query){
+            const regex = new RegExp(query, 'i');
+            await Product.find({
+                $or: [
+                    { productName: regex },
+                    { Price: regex },
+                    { Discount: regex },
+                    { Category: regex },
+                    { Sub_Category: regex },
+                    { Composition: regex },
+                    { Shipping: regex },
+                    { Description: regex }
+                ]
+            }).then(response =>{
+                res.status(200).json({response, message:"Search Item Found"})
+            })
+            .catch(error =>{
+                res.status(204).json({error, messge:"No product available"})
+            })
+        }
+        
+    } catch (error) {
+        res.status(500).json({error, message:"Invalid Server Error"})
+        
+    }
+})
 module.exports = {
     createProduct, 
     updateProduct,
     getCreatorsProducts, 
-    getAllProducts
+    getAllProducts, 
+    getLatestProducts, 
+    searchProducts
 }

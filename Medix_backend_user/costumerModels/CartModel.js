@@ -11,6 +11,10 @@ const cartSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 require: true
             },
+            creatorId:{
+                type: mongoose.Schema.ObjectId,
+                require: true
+            },
             productName: {
                 type: String,
                 require: true

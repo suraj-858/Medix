@@ -57,8 +57,40 @@ export const categorySlice = createSlice({
     CategoryHolder: (state) =>{
       state.userCategory = state.categoryData
     }, 
+    addToCategory:(state, action) =>{
+      state.userCategory.push(action.payload)
+    },
+    removeCreatorCategory:(state, action) =>{
+      state.categoryData = state.userCategory.filter((category) => category._id !== action.payload._id)
+
+      
+    },
+    updateCategory:(state, action) =>{
+      let find = state.userCategory.findIndex(product => product?.creator === action.payload.creator);
+      if(find >= 0){
+        state.userCategory[find].categoryName = action.payload.categoryName;
+      }
+    },
+
+
+    addToSubCategory:(state, action) =>{
+      state.subCategoryData.push(action.payload);
+    },
+
+    removeCreatorSubCategory:(state, action) =>{
+      state.subCategoryData = state.userSubCategory.filter((category) => category._id !== action.payload)
+
+      
+    },
+    updateSubCategory:(state, action) =>{
+      let find = state.userSubCategory.findIndex(product => product?._id === action.payload._id);
+      if(find >= 0){
+        state.userSubCategory[find].name = action.payload.name;
+      }
+    },
+    
     subCategoryHolder: (state) =>{
-      state.userSubCategory = state.subCategoryData
+      state.subCategoryData = state.subCategoryData
     }
   },
   extraReducers: (builders) => {
@@ -112,7 +144,7 @@ const removeCategoryState: removeCategoryType = {
 }
 
 
-export const removeCategory = createAsyncThunk('fetchSubCategory', async (categoryId: string) => {
+export const removeCategory = createAsyncThunk('removeCategory', async (categoryId: string) => {
 
   try {
     const response = await axios.delete(`/category/delete_category/${categoryId}`)
@@ -148,4 +180,4 @@ export const removeCategorySlice = createSlice({
 })
 
 
-export  const {CategoryHolder, subCategoryHolder} = categorySlice.actions
+export  const {CategoryHolder, subCategoryHolder, addToCategory, removeCreatorCategory, updateCategory, addToSubCategory, removeCreatorSubCategory, updateSubCategory} = categorySlice.actions  

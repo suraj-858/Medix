@@ -15,9 +15,6 @@ const Login = asyncHandler(async (req, res) => {
     const foundUser = await Costumer.findOne({ email }).exec()
     const foundEditor = await Editor.findOne({ email }).exec();
 
-    console.log(foundUser);
-    console.log(foundEditor);
-
     if (!foundUser && !foundEditor) {
 
         return res.status(404).json({ message: 'User Unauthorized' })
@@ -58,8 +55,9 @@ const Login = asyncHandler(async (req, res) => {
         })
 
         const userId = foundUser?._id;
+        const username = foundUser?.username
 
-        res.json({ accessToken, refreshToken, roles, userId })
+        res.json({ accessToken, refreshToken, roles, userId, username })
 
     }
 
@@ -147,7 +145,6 @@ const refresh = (req, res) => {
 const Logout = (req, res) => {
     const cookies = req.cookies
 
-    console.log(cookies);
     if (!cookies?.jwt) {
 
         return res.sendStatus(204)

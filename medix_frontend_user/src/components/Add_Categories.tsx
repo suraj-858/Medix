@@ -4,7 +4,7 @@ import { useRef, useState, memo, useEffect } from "react"
 import Toast from "./Toast";
 import Loader from "./Loader";
 import { BiCheck, BiError } from "react-icons/bi";
-import { fetchCategory, fetchSubCategory } from "../redux/slice/categorySlice";
+import { addToCategory, addToSubCategory, fetchCategory } from "../redux/slice/categorySlice";
 import { useAppDispatch } from "../redux/store";
 
 interface addCatProps {
@@ -68,10 +68,13 @@ const Add_Categories = ({ Cat_Header, SCat_Adder, categoryAddress }: addCatProps
                                     setNewCatData(userConsoledata);
                                     setCategoryName("")
                                     setIsLoading(false);
-                                    if(userConsoledata?.status === 201 && categoryAddress)
-                                    CategoryDispatch(fetchSubCategory(categoryAddress));
+                                    if(userConsoledata?.status === 201 && categoryAddress){
+                                        CategoryDispatch(addToSubCategory(userConsoledata?.data?.subCatResponse));
+                                    }
                                     
-                                    if(userConsoledata?.status === 200)
+                                    if(userConsoledata?.status === 200){
+                                        CategoryDispatch(addToCategory(userConsoledata?.data?.response));
+                                    }   
                                     CategoryDispatch(fetchCategory());
                                     
                                 }else{

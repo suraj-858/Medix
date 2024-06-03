@@ -3,14 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { singleProductsType } from "../Types/authType";
 import { useContext, useState } from "react";
 import axios from "../api/axios";
-import Toast from "./Toast";
 import { AxiosResponse } from "axios";
 import { authContext } from "../context/AuthProvider";
 import { useAppDispatch } from "../redux/store";
 import { addToCart, getCartTotal } from "../redux/slice/cartSlice";
+import './Skeleton_Loader/Skeleton.css'
+import noProductImage from '../assets/Images/no-image.jpeg'
 
 
 interface product_catProps {
+    product: singleProductsType
+}
+type addToCartHandlerProps = {
+    e: any, 
     product: singleProductsType
 }
 
@@ -19,20 +24,21 @@ const Product_cat = ({ product }: product_catProps) => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false)
     const [isAddedToCart, setIsAddedToCart] = useState<AxiosResponse>();
-    const {setCartLoading} = useContext(authContext);
+    const { setCartLoading } = useContext(authContext);
     const productDispatch = useAppDispatch();
 
-    const addToCartHandler = async (e: any) => {
+    const addToCartHandler = async ({e, product}: addToCartHandlerProps) => {
 
         e.preventDefault();
         const customerId = sessionStorage.getItem('userId')
-
+        
         const productDetails = {
             productId: product?._id,
             productName: product?.productName,
             productPrice: product?.Price,
             productQuantity: 1,
-            productImage: product?.productImageDetails?.ImageURL
+            productImage: product?.productImageDetails?.ImageURL,
+            creatorId: product.userId
         }
         setCartLoading(true)
         setIsLoading(true)
@@ -40,7 +46,7 @@ const Product_cat = ({ product }: product_catProps) => {
         productDispatch(addToCart(productDetails))
         productDispatch(getCartTotal())
         await axios.post(`/cart/create_cart/${customerId}`, productDetails)
-        .then(response => {
+            .then(response => {
                 response.status === 200 && setIsAddedToCart(response);
                 setCartLoading(false);
                 setTimeout(() => {
@@ -56,20 +62,18 @@ const Product_cat = ({ product }: product_catProps) => {
     return (
         <div className='md:max-h-[480px] md:max-w-[360px] bg-white
             h-auto min-w-[180px] md:w-[340px] w-[280px] m-2 p-1 relative md:flex-shrink-0'>
-            {isAddedToCart?.status === 200 && <Toast toastMessage="Product Added to cart successfully" />}
-
             {product?.Discount !== "" ?
                 <div className=' rounded-ss-md absolute text-white bg-red-600  py-1 pl-2 pr-6 rounded-ee-[40px]'>{product?.Discount}</div>
                 : <></>}
             <div className="md:h-[260px] h-[200px] w-full rounded-md">
-                <img src={product?.productImageDetails?.ImageURL} alt="" className="h-full w-full object-center object-cover" />
+                <img src={!product?.productImageDetails ? noProductImage : product?.productImageDetails?.ImageURL } alt="" className="h-full w-full object-center object-cover" />
 
             </div>
-            <h2 className='font-semibold text-slate-700 text-[16px] md:h-10 my-2 leading-5 px-1 hover:text-orange-700 cursor-pointer'
+            <h2 className='font-semibold text-slate-700 text-[16px] md:h-10 my-2 leading-5 px-1 hover:text-yellow-500 cursor-pointer'
 
                 onClick={() => {
                     navigate(`/costumer/product_page/${product?._id}`, { state: { ...product } })
-                }}
+                }}  
             >{product?.productName}</h2>
             <div className="price_segment flex items-center justify-start my-2">
 
@@ -89,7 +93,7 @@ const Product_cat = ({ product }: product_catProps) => {
                <p className="text-slate-500 flex flex-wrap">{supplierCompany}</p>
                
                 <p className={` ${stockLeft !== 0 ? "bg-green-200/50 text-green-600": "bg-red-200/50 text-red-600 text-sm"} py-1 px-1 md:px-2 font-semibold rounded-sm flex justify-center items-center flex-wrap md:text-[18px] text-[16px] w-fit`}>{stockLeft === 0 ? "No Stock": `${stockLeft} left`}</p>
-            </div> */}  
+            </div> */}
 
 
             <div className="w-full flex justify-center my-3">
@@ -98,7 +102,7 @@ const Product_cat = ({ product }: product_catProps) => {
                 '>Buy</button>
                 <button className=' mx-1 bg-green-500  w-[100%]  py-2 bottom-2 text-white font-semibold md:text-[18px] text-[16px]
                 transition ease-in-out duration-200 hover:bg-green-500/70
-                 ' onClick={(e) => addToCartHandler(e)} disabled = {isLoading || isAddedToCart ? true: false}>{isLoading ? "Adding to cart..." : isAddedToCart?.status === 200 ? "Added to cart" : "Add to cart"}</button>
+                 ' onClick={(e) => addToCartHandler({e, product})} disabled={isLoading || isAddedToCart ? true : false}>{isLoading ? "Adding to cart..." : isAddedToCart?.status === 200 ? "Added to cart" : "Add to cart"}</button>
             </div>
 
         </div>

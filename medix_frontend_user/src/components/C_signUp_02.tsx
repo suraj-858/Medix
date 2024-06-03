@@ -75,22 +75,24 @@ const C_signUp_02 = () => {
 
   return (
     <div className="w-[100%] h-[100%] flex items-center justify-center flex-col relative ">
-
-    <label className = "relative w-[90%] flex justify-center my-4">
+      <div className='flex items-center md:mb-8 justify-center'>
+        <h1 className='md:text-2xl text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-800 via-blue-600 to-cyan-400'>Sign up </h1>
+      </div>
+    <label className = "relative w-[90%] flex justify-center mb-3">
       <input 
       ref={phoneRef}
       type='text' 
-      className= "h-16 w-[100%] px-5 pb-1 flex justify-center text-2xl border-slate-500 border-[2px] focus:border-[3px] valid:border-[3px] rounded-md border-opacity-50 outline-none focus:border-blue-500 valid:border-blue-500  transition duration-100" required 
+      className= "md:h-12 h-10 w-[100%] md:px-5 px-2 md:pb-1 flex justify-center lg:text-xl md:text-base text-sm border-slate-500 border-[2px] focus:border-[3px] valid:border-[3px] rounded-md border-opacity-50 outline-none focus:border-blue-500 valid:border-blue-500  transition duration-100" required 
       autoComplete='off'
       onChange={(e) =>{
         setNumberValue(e.target.value)
       }}/>
-      <span className= "text-2xl text-slate-500 text-opacity-80 absolute left-0 top-3 mx-5  px-2 transition duration-200 input-text">Phone Number</span>
+      <span className= "md:text-base lg:text-xl text-sm text-slate-500 text-opacity-80 absolute left-0 md:top-3 top-2 md:mx-5 mx-3  px-1 transition duration-200 input-text">Phone Number</span>
     </label>
     <label className = "relative w-[90%] flex justify-center mt-2 ">
-      <input type='text' className= "h-16 w-[100%] px-5 pb-1 flex justify-center text-2xl border-slate-500 border-[2px] focus:border-[3px] valid:border-[3px] rounded-md border-opacity-50 outline-none focus:border-blue-500 valid:border-blue-500  transition duration-100" required onChange={(e) =>{setPasswordValue(e.target.value)}}/>
+      <input type='password' className= "md:h-12 h-10 w-[100%] md:px-5 px-2 md:pb-1 flex justify-center lg:text-xl md:text-base text-sm border-slate-500 border-[2px] focus:border-[3px] valid:border-[3px] rounded-md border-opacity-50 outline-none focus:border-blue-500 valid:border-blue-500  transition duration-100" required onChange={(e) =>{setPasswordValue(e.target.value)}}/>
 
-      <span className= "text-2xl text-slate-500 text-opacity-80 absolute left-0 top-3 mx-5  px-2 transition duration-200 input-text">Password</span>
+      <span className= "md:text-base lg:text-xl text-sm  text-slate-500 text-opacity-80 absolute left-0 md:top-4 top-2 md:mx-5 mx-3  px-1 transition duration-200 input-password ">Password</span>
     </label>
 
     <div className="h-4 my-2 flex items-center justify-start w-[90%] ml-2">
@@ -99,22 +101,21 @@ const C_signUp_02 = () => {
 
     <div className="flex justify-between w-[90%]">
         <Link to= "/user/register_n&e">
-    <button className='px-6 bg-slate-300 h-12 rounded-md text-black text-lg font-semi-bold'>Back</button>
+    <button className='px-5 bg-gray-300 md:h-12 h-8 rounded-md text-gray-600 lg:text-xl md:text-base text-sm font-semi-bold disabled:opacity-75 flex justify-center items-center '>Back</button>
     </Link>
-    <button className='px-4 bg-blue-500 h-12 rounded-md text-white text-lg font-semi-bold disabled:opacity-75' disabled = {passwordValidator === "" && numberValue.length === 10 && passwordValue.length >=8 ? false : true} onClick={createAccountHandler}>Create Account</button>
+    <button className='px-5 bg-blue-500 md:h-12 h-8 rounded-md text-white lg:text-xl md:text-base text-sm font-semi-bold disabled:opacity-75 flex justify-center items-center ' disabled = {passwordValidator === "" && numberValue.length === 10 && passwordValue.length >=8 ? false : true} onClick={createAccountHandler}>Create Account</button>
     </div>
 
-    <div className="h-2 flex flex-row w-[90%] justify-center items-center text-center my-8">
-    <hr className=' border-2 border-slate-400 w-full ' />
-      <span className='mx-2 text-xl'>or</span>
-    <hr className=' border-2 border-slate-400 w-full ' />
-
+    <div className="h-2 flex flex-row w-[90%] justify-center items-center text-center my-4">
+    <hr className=' md:border-2 border-1 border-slate-400 w-full ' />
+      <span className='mx-2 md:text-xl text-base'>or</span>
+    <hr className=' md:border-2 border-1 border-slate-400 w-full ' />
     </div>
 
-    <div className="flex flex-row w-[90%] mt-8 justify-between">
-      <button className='hover:bg-red-400 hover:bg-opacity-10 px-2 py-1 rounded-md text-red-600 font-medium text-[18px]'>Forget Password?</button>
-        <Link to= "/user/login">
-      <button className='hover:bg-blue-400 hover:bg-opacity-10 px-2 py-1 rounded-md text-blue-600 font-medium text-[18px]'>Login</button>
+    <div className="flex flex-row w-[90%]  md:mt-6 mt-4 justify-between">
+      <button className='hover:bg-red-400 hover:bg-opacity-10 px-2 py-1 rounded-md text-red-600 font-medium text-sm md:text-base'>Forget Password?</button>
+        <Link to= "/user">
+      <button className='hover:bg-blue-400 hover:bg-opacity-10 px-2 py-1 rounded-md text-blue-600 font-medium text-sm md:text-base'>Login</button>
         </Link>
     </div>
    

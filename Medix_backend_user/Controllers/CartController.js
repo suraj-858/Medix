@@ -8,7 +8,7 @@ const createCart = asyncHandler(async(req, res) =>{
 
     try {
         const customerId = req.params.id;
-        const {productId, productName, productPrice,  productQuantity, productImage } = req.body;
+        const {productId, productName, productPrice,  productQuantity, productImage, creatorId } = req.body;
 
         const response = await Cart.find({customerId: customerId})
 
@@ -17,7 +17,8 @@ const createCart = asyncHandler(async(req, res) =>{
             productName: productName,
             productPrice: productPrice,
             productQuantity: productQuantity,
-            productImage: productImage
+            productImage: productImage,
+            creatorId:creatorId
 
         } 
 
@@ -96,10 +97,10 @@ const removeCart = asyncHandler(async(req, res) =>{
 
     try {
         const cartId = req.params.id;
-        const {cartItemId} = req.body;
+        const {productId} = req.body;
 
-        if(cartId && cartItemId){
-            await Cart.findOneAndUpdate({customerId: cartId}, {$pull:{productDetails:{_id: cartItemId}}}, {new: true})
+        if(cartId && productId){
+            await Cart.findOneAndUpdate({customerId: cartId}, {$pull:{productDetails:{productId: productId}}}, {new: true})
             .then(response =>{
                 res.status(200).json({response, message:"Cart Item removed Successfully"})
             }).catch(error =>{

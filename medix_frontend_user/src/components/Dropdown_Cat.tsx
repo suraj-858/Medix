@@ -22,7 +22,7 @@ const Dropdown_Cat = ({categoryHeader, categoryItem, isLoading}: DropdownCatProp
         >
 
             <div className=" cursor-pointer h-[100%] md:text-xl py-1 text-black  justify-center items-center border-[1px]
-          hover:bg-green-100/70 hover:text-green-600 md:px-8 px-2 text-md ">{categoryHeader}</div>
+          hover:bg-blue-500 hover:text-white md:px-8 px-2 text-md ">{categoryHeader}</div>
             {dropdownopen && (
 
                 <ul className={` ${dropdownopen ? "" : "hidden"}  absolute md:translate-x-0 translate-x-[-15%]
@@ -31,7 +31,7 @@ const Dropdown_Cat = ({categoryHeader, categoryItem, isLoading}: DropdownCatProp
                     { isLoading ? <div className="w-full flex justify-center"><Loader/></div> : categoryItem && categoryItem.map((subcategory, subCategoryIndex) =>{
                         return( 
                         <div key={subCategoryIndex} className="">
-                         <li className="px-4 py-2 hover:bg-green-500/10 hover:text-green-600 cursor-pointer">{subcategory?.subCategoryName}</li>
+                         <li className="px-4 py-2 hover:bg-blue-500 hover:text-white cursor-pointer">{subcategory?.subCategoryName}</li>
                             <hr className="border-slate-300" />
                         </div>)
                     })}

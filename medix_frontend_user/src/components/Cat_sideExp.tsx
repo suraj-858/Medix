@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState } from 'react'
 import { useAppSelector } from '../redux/store';
-import Loader from './Loader';
+import './Skeleton_Loader/Skeleton.css'
 import { authContext } from '../context/AuthProvider';
 import { subCategoryItemHolder } from '../Types/authType';
 
@@ -24,14 +24,21 @@ const Cat_sideExp = ({isloading }: categoryProps) => {
   const [sideExpand, setSideExpand] = useState(false)
 
   return (
-    <div className='w-full h-aut0 absolute bg-white rounded-lg border-2 border-slate-300 z-0'>
+    <div className='w-full lg:w-[220px] h-auto bg-white rounded-lg border-2 border-slate-300 z-0'>
 
-      {isloading ? (<div className='w-[full] flex justify-center items-center'>
-        <Loader />
+      {isloading ? (<div className='w-[full] flex justify-start flex-col items-start'>
+
+        <div className='skeleton w-[80%] h-4 rounded-md ml-3  mb-2 mt-3'></div>
+        <div className='skeleton w-[60%] h-4 rounded-md ml-3  my-2'></div>
+        <div className='skeleton w-[65%] h-4 rounded-md ml-3  my-2'></div>
+        <div className='skeleton w-[55%] h-4 rounded-md ml-3  my-2'></div>
+        <div className='skeleton w-[75%] h-4 rounded-md ml-3  my-2'></div>
+        <div className='skeleton w-[50%] h-4 rounded-md ml-3  mb-2 mt-3'></div>
+
       </div>) :
         (
           <>
-            <div className=" hover:bg-green-100/70 hover:text-green-700 cursor-pointer  px-2 py-2 text-slate-600 font-semibold text-md" onClick={() =>{
+            <div className=" hover:bg-blue-500 hover:text-white cursor-pointer  px-2 py-2 text-slate-600 font-semibold text-md" onClick={() =>{
               if(selectSubCategoryName !== ""){
                 setSelectSubCategoryName("")
               }
@@ -44,7 +51,7 @@ const Cat_sideExp = ({isloading }: categoryProps) => {
 
               return (
                 <div key={catIndex}>
-                  <div className=" hover:bg-green-100/70 hover:text-green-700 cursor-pointer  px-2 py-2 text-slate-600 font-semibold text-md" onMouseEnter={() => {
+                  <div className=" hover:bg-blue-500 hover:text-white cursor-pointer  px-2 py-2 text-slate-600 font-semibold text-md" onMouseEnter={() => {
                     setSideExpand(true)
                       setSubCategoryExtract(category.subCategory)
                   }}
@@ -65,7 +72,7 @@ const Cat_sideExp = ({isloading }: categoryProps) => {
           { subCategoryExtract.length === 0 ? <span className=' flex justify-center'>No sub category added</span> : subCategoryExtract && subCategoryExtract?.map((subCategory, carBrandIndex) => {
 
             return (<div key={carBrandIndex}>
-              <li className=' cursor-pointer p-2 font-semibold hover:bg-green-100/70 hover:text-green-600' onClick={() => {
+              <li className=' cursor-pointer p-2 font-semibold hover:bg-blue-500 hover:text-white' onClick={() => {
 
                 setSelectSubCategoryName(subCategory?.subCategoryName)
 

@@ -18,7 +18,7 @@ const Product: React.FC = () => {
   const productDispatch = useAppDispatch()
   const ProductRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(false);
-  const { data, isLoading } = useAppSelector(state => state.category)
+  const { userCategory, isLoading } = useAppSelector(state => state.category)
 
   const [singleProduct, setSingleProducts] = useState<singleProductsType>({
     _id: "",
@@ -66,7 +66,7 @@ const Product: React.FC = () => {
       <h1 className="lg:text-3xl ml-8 mt-8 mb-4 md:text-2xl text-xl font-semibold" ref={ProductRef}>Add Product</h1>
       <section className="flex w-[100%] lg:flex-row flex-col lg:justify-evenly justify-center items-center">
 
-        <AddProduct ProductRef={ProductRef} scrollTop = {scrollTop} singleProduct = {singleProduct} data = {data} isloading = {isLoading} />
+        <AddProduct ProductRef={ProductRef} scrollTop = {scrollTop} singleProduct = {singleProduct} data = {userCategory} isloading = {isLoading} />
 
         <div className="lg:w-[30%] w-[95%] max-h-[650px] lg:my-0 my-10 max-w-[600px] rounded-md bg-[#faf8fa] overflow-y-auto">
           <Recent_Product />
@@ -75,7 +75,7 @@ const Product: React.FC = () => {
       <section className="flex justify-center flex-col items-center mt-6 w-[90%] mx-auto">
         <h1 className="lg:text-2xl md:text-xl text-base font-semibold">Your Products</h1>
         <hr className="border-none h-[3px] bg-gradient-to-r from-cyan-500 to-blue-500 my-2 w-[20%] min-w-[180px]" />
-        <Editor_All_Product setScrollTop={setScrollTop} setSingleProducts = {setSingleProducts} data = {data} isLoading = {isLoading} />
+        <Editor_All_Product setScrollTop={setScrollTop} setSingleProducts = {setSingleProducts} data = {userCategory} isLoading = {isLoading} />
       </section>
     </ContentWrapper>
   )

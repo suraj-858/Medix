@@ -14,8 +14,11 @@ export type isProducType = {
 export type selectedCatIdType = string
 export type cartLoading = boolean;
 export type selectSubCategoryName = string;
+export type isOrderPlacedType = boolean;
   
   export interface UserContextInterface  {
+    isOrderPlaced: isOrderPlacedType,
+    setIsOrderPlaced: Dispatch<SetStateAction<isOrderPlacedType>>,
     auth: Auth;
     setAuth: Dispatch<SetStateAction<Auth>>
     isProduct: isProducType;
@@ -146,7 +149,22 @@ export type selectSubCategoryName = string;
 
 }
 
-
+//type for recent orders
+export type recentOrderTypes = {
+  _id: string,
+  customerId: string,
+  productDetails: [{
+      productId: string,
+      productName: string,
+      productQuantity: number,
+      productPrice: number,
+      productImage: string
+      creatorId: string
+  }],
+  state: string,
+  deliveryAddress: string,
+  createdAt: string
+}
 
 
 

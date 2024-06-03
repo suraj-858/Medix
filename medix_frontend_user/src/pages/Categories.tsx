@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
 import { fetchCategory } from "../redux/slice/categorySlice"
 import { useAppDispatch} from "../redux/store";
-// import Order_Table from "../components/Order_Table";
 
 const Categories = () => {
 

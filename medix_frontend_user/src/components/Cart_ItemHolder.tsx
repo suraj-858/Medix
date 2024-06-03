@@ -16,6 +16,7 @@ const Cart_ItemHolder = ({ productItem }: selectedArrayPropsType) => {
     const [quantities, setQuantities] = useState(productItem?.productQuantity);
     const thisPrice = parseFloat(productItem.productPrice);
     const [isloading, setisloading] = useState(false)
+    const [isLoadingRemove, setIsLoadingRemove] = useState(false);
     const userId = sessionStorage.getItem('userId')
     const cartDispatch = useAppDispatch();
     const quantityRef = useRef<any>();
@@ -41,15 +42,15 @@ const Cart_ItemHolder = ({ productItem }: selectedArrayPropsType) => {
 
     }
 
-    const handleRemoveCartItem = async(cartItemId: string) =>{
+    const handleRemoveCartItem = async(productId: string) =>{
         
-        setisloading(true)
-        cartDispatch(removeCart({_id: cartItemId}))
+        setIsLoadingRemove(true)
+        cartDispatch(removeCart({productId: productId}))
         successMessageCarrier && setSuccessMessageCarrier(undefined)
-        await axios.post(`/cart/remove_cart_item/${userId}`, {cartItemId: cartItemId})
+        await axios.post(`/cart/remove_cart_item/${userId}`, {productId: productId})
         .then(response =>{
             if(response.status === 200){
-                setisloading(false)
+                setIsLoadingRemove(false)
                 setSuccessMessageCarrier(response)
             }
             setTimeout(() => {
@@ -66,22 +67,27 @@ const Cart_ItemHolder = ({ productItem }: selectedArrayPropsType) => {
 
             {productItem !== undefined ? 
                     <section  className="w-[100%] my-2">
-                        <div className="grid grid-cols-6 gap-10 w-[100%]">
-                            <div className="col-span-3 flex items-start my-5">
+                        <div className="grid grid-cols-6 md:gap-10 w-[100%]">
+                            <div className="md:col-span-3 col-span-2 flex justify-start my-5">
                                 <img src={productItem.productImage} alt="" className="h-[100px] w-[100px] hidden md:block" />
-                                <div className="ml-4 text-sm md:text-lg">
+                                <div className="md:ml-4 text-sm md:text-lg">
                                     <h1 className="py-1">{productItem.productName}</h1>
-                                    <p className="py-1">orderId: {productItem._id}</p>
-                                    <button className="py-1 px-3 bg-red-100 text-red-500 font-semibold rounded-md"
+                                    <p className="py-1 md:block hidden">orderId: {productItem._id}</p>
+
+                                    <div className="flex md:flex-row flex-col justify-start  md:justify-between max-w-[200px]">
+                                    <button className="py-1 px-3 bg-red-100 text-red-500 font-semibold rounded-md mb-2 md:mb-0"
                                         onClick={async (e) => {
                                             e.preventDefault();
-                                            handleRemoveCartItem(productItem?._id)
-                                        }}>Remove</button>
-                                    <button className="py-1 px-3 bg-green-100 text-green-500 font-semibold rounded-md ml-3" onClick={async (e) => {
+                                            handleRemoveCartItem(productItem?.productId)
+                                        }}>{isLoadingRemove ? "Removing...":"Remove"}</button>
+                                    <button className="py-1 px-3 bg-green-100 text-green-500 font-semibold rounded-md " onClick={async (e) => {
                                         e.preventDefault();
                                         successMessageCarrier === undefined && updateCartQuantityHandler(productItem)
 
                                     }} disabled = {isloading} >{isloading ? "Updating..." : !isloading && successMessageCarrier?.status === 200 ? "Updated": "Update"}</button>
+
+                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -98,17 +104,17 @@ const Cart_ItemHolder = ({ productItem }: selectedArrayPropsType) => {
                                         const validQuantity = isNaN(newQuantity) || newQuantity < 1 ? 1 : newQuantity;
                                         setQuantities(validQuantity);
                                     }}
-                                    className="md:text-2xl md:w-[100px] rounded-md border-[3px] border-slate-200 md:px-1 outline-none h-10 text-md text-center"
+                                    className="md:text-base text-sm md:w-[100px] rounded-md border-[3px] border-slate-200 md:px-1 outline-none h-10 text-md text-center"
                                     type="number"
                                 />
                             </div>
 
-                            <div className="col-span-1 flex items-center justify-center">
-                                <h1 className="text-slate-500 md:text-2xl text-md">{thisPrice}</h1>
+                            <div className="md:col-span-1 col-span-2 flex items-center justify-center">
+                                <h1 className="text-slate-500 md:text-base text-sm">{thisPrice}</h1>
                             </div>
 
                             <div className="col-span-1 flex items-center justify-end">
-                                <h1 className="text-slate-500 md:text-2xl text-md mr-5">{quantities * thisPrice}</h1>
+                                <h1 className="text-slate-500 md:text-base text-sm md:mr-5">{quantities * thisPrice}</h1>
                             </div>
                         </div>
                         <hr />

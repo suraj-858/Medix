@@ -1,21 +1,15 @@
 const asyncHandler = require('express-async-handler')
 const Order = require('../costumerModels/OrderModel')
-const Customer = require('../costumerModels/UserModel');
 
 const createOrder = asyncHandler(async (req, res) => {
 
     try {
-        const customerId = req.params.id;
-        const { productName, productPrice, productId, quantity, state, deliveryAddress, sellerId } = req.body;
+        const { cartArrayDetails, deliveryAddress } = req.body;
 
         const orderDetails = {
-            ProductName: productName,
-            productPrice: productPrice,
-            sellerId: sellerId,
-            costumerId: customerId,
-            productId: productId,
-            quantity: quantity,
-            state: state,
+            customerId: req.params.id,
+            productDetails: cartArrayDetails,
+            state: "In Process",
             deliveryAddress: deliveryAddress
         }
         if (orderDetails) {
@@ -29,19 +23,20 @@ const createOrder = asyncHandler(async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Internal Server Error" })
     }
 
 })
 
-const editOrder = asyncHandler(async (req, res) => {
+const updateOrder = asyncHandler(async (req, res) => {
 
     try {
         const orderId = req.params.id;
-        const { quantity } = req.body;
+        const { state } = req.body;
 
-        if (quantity) {
-            await Order.findByIdAndUpdate(orderId, { quantity: quantity }).then(response => {
+        if (state) {
+            await Order.findByIdAndUpdate(orderId, { state: state }, {new: true}).then(response => {
                 if (response) {
                     res.status(200).json({ response, message: "Quantity updated successfully" })
                 }
@@ -77,29 +72,19 @@ const removeOrder = asyncHandler(async (req, res) => {
 const fetchOrders = asyncHandler(async (req, res) => {
 
     try {
-        const userId = req.params.id;
+        const userId = req?.params?.id;
 
-        const response = await Customer.findById({ _id: userId })
-        if (response) {
-            await Order.find({ costumerId: userId }).then(response => {
-                if (response) {
-                    res.status(200).json({ response, message: "Order Successfully Fetched" })
-                }
+        await Order.find({ customerId: userId})
+            .then(response => {
+                console.log(response);
+                res.status(200).json({response, message:"Order fetched successfully"})
             }).catch(error => {
-                res.status(400).json({ error, message: "Error fetching orders" })
+                console.log(error);
+                res.status(400).json({ error, message: "Error fetching Order" })
             })
-        } else {
-
-            await Order.find({ sellerId: userId }).then(response => {
-                if (response) {
-                    res.status(200).json({ response, message: "Order Successfully Fetched" })
-                }
-            }).catch(error => {
-                res.status(400).json({ error, message: "Error fetching orders" })
-            })
-        }
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: "Internal Server Error" })
 
     }
@@ -107,7 +92,7 @@ const fetchOrders = asyncHandler(async (req, res) => {
 
 module.exports = {
     createOrder,
-    editOrder,
+    updateOrder,
     removeOrder,
     fetchOrders
 }

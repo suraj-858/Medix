@@ -1,17 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import Suggestion_Cart from "../components/Suggestion_Cart";
 import ContentWrapper from "../components/ContentWrapper";
 import productArray from "../assets/Data/MedicineData";
 import { singleProductsType } from "../Types/authType";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ReactImageMagnify from 'react-image-magnify';
+import ScrollToTop from "../components/ScrollToTop";
+import axios from "../api/axios";
+import { authContext } from "../context/AuthProvider";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { addRecentOrder } from "../redux/slice/orderSlice";
+import gifLoader from '../assets/Images/Successfully_Done.gif'
+import { addToCart, getCartTotal } from "../redux/slice/cartSlice";
+import { AxiosResponse } from "axios";
 
-
+type addToCartHandlerProps = {
+  e: any,
+  product: singleProductsType
+}
 
 const ProductPage = () => {
 
   const location = useLocation();
+  console.log(location.state);
+
   const product: singleProductsType = location.state
 
   const [openDescription, setOpenDescription] = useState(false);
@@ -78,39 +91,106 @@ const ProductPage = () => {
   }
   const bgUrl = product && product?.productImageDetails?.ImageURL;
 
+  const [isLoading, setIsLoading] = useState(false);
+  const { setIsOrderPlaced, isOrderPlaced } = useContext(authContext);
+  const { userCart } = useAppSelector(state => state.createCart);
+  const memonizedMainUserCart = useMemo(() => userCart, [userCart])
+  const userId = sessionStorage.getItem('userId')
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+
+  const handleOrderPlaced = async () => {
+    setIsLoading(true);
+    await axios.post(`/order/createOrder/${userId}`, {
+      cartArrayDetails: memonizedMainUserCart,
+      deliveryAddress: "Kathmandu"
+
+    }).then(response => {
+      response && setIsLoading(false)
+      response && setIsOrderPlaced(true)
+      const createdOrder = response?.data?.response
+      dispatch(addRecentOrder(createdOrder))
+
+    }).catch(error => {
+      error && setIsLoading(false)
+    })
+
+    setTimeout(() => {
+      setIsOrderPlaced(false)
+      navigate('/costumer/order')
+    }, 3000);
+  }
+
+  //function to handle cart
+  const productDispatch = useAppDispatch();
+  const [cartLoading, setCartLoading] = useState(false)
+  const [isAddedToCart, setIsAddedToCart] = useState<AxiosResponse>();
+
+  const addToCartHandler = async ({ e, product }: addToCartHandlerProps) => {
+
+    e.preventDefault();
+    const customerId = sessionStorage.getItem('userId')
+
+    const productDetails = {
+      productId: product?._id,
+      productName: product?.productName,
+      productPrice: product?.Price,
+      productQuantity: 1,
+      productImage: product?.productImageDetails?.ImageURL,
+      creatorId: product.userId
+    }
+    setCartLoading(true)
+    isAddedToCart && setIsAddedToCart(undefined)
+    productDispatch(addToCart(productDetails))
+    productDispatch(getCartTotal())
+    await axios.post(`/cart/create_cart/${customerId}`, productDetails)
+      .then(response => {
+        response.status === 200 && setIsAddedToCart(response);
+        setCartLoading(false);
+        setTimeout(() => {
+          setIsAddedToCart(undefined);
+        }, 6000);
+
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+
 
   return (
     <div className=" my-4 w-full mx-auto flex justify-center items-center flex-col ">
-
+      <ScrollToTop />
+      {isOrderPlaced && <img className="absolute w-[100%] max-h-[500px] top-[20%] object-contain object-center z-10" src={gifLoader} placeholder="successfully placed gif image" />}
       <div className="md:flex justify-evenly md:w-[80%] mx-3 relative ">
-        <section className={`md:mx-6 md:w-[350px] md:h-[400px] w-full max-w-[400px] h-[400px] bg-transparent flex-shrink-0 mb-5 cursor-pointer`}
+
+        <section className={`md:mx-6 md:w-[350px] md:h-[400px] w-full max-w-[400px] bg-transparent flex-shrink-0 mb-5 cursor-pointer`}
           onMouseEnter={() => { setImageExpand(true) }}
           onMouseLeave={() => { setImageExpand(false) }}
         >
-          {/* <img className="cursor-pointer h-full object-cover object-center relative" src={bgUrl} alt="" /> */}
           <div className="h-full w-full">
 
-          <ReactImageMagnify {...{
-            smallImage: {
-              alt: 'Wristwatch by Ted Baker London',
-              isFluidWidth: true,
-              src: bgUrl
-            },
-            largeImage: {
-              src: bgUrl,
-              width: 1800,
-              height: 1200,
-            },
-            enlargedImageContainerDimensions:{
-              width: 700,
-              height: 600
-            }
-          }} />
+            <ReactImageMagnify {...{
+              smallImage: {
+                alt: 'Wristwatch by Ted Baker London',
+                isFluidWidth: true,
+                src: bgUrl
+              },
+              largeImage: {
+                src: bgUrl,
+                width: 1800,
+                height: 1200,
+              },
+              enlargedImageContainerDimensions: {
+                width: 700,
+                height: 600
+              }
+            }} />
           </div>
-          {/* <img  className={`${!imageExpand ? "hidden": "lg:block hidden"} w-[55%] top-0 right-0 h-[100%] object-cover object-center bg-slate-800 absolute z-10`} src={product?.productImageDetails?.ImageURL}/> */}
         </section>
 
-        <div className="max-w-[800px]">
+        <div className="md:max-w-[800px]">
           <h1 className="flex flex-wrap text-4xl 
                 mb-5 font-semibold">{product?.productName}</h1>
           <p>Manufacturer: Arya pharmacitucals pvt ltd</p>
@@ -289,20 +369,29 @@ const ProductPage = () => {
 
           {/* //Button section */}
 
-          <section className="mt-10 flex
-           justify-between min-w-[200px]
-            max-w-[300px]">
+          <section className="md:mt-10 mt-4 flex md:flex-row flex-col
+           justify-between 
+            max-w-[500px]">
             <button className=" border-2
+             max-w-[200px] my-2 md:my-0
              hover:bg-slate-200/70 px-3
               py-2 bg-slate-100 rounded-sm
-               text-xl font-semibold transition 
-               duration-300 ease-in-out text-slate-500">Buy Now</button>
+               text-lg font-semibold transition 
+               duration-300 ease-in-out text-slate-500" onClick={(e) => {
+                e.preventDefault();
+                handleOrderPlaced();
+
+              }} disabled={isLoading ? true : false}>{isLoading ? "Placing Order..." : "Buy Now"}</button>
             <button className=" border-2
+            max-w-[200px] my-2 md:my-0
              hover:bg-green-500/70 px-3
               py-2 bg-green-500 rounded-sm 
-              text-xl text-white font-semibold
+              text-lg text-white font-semibold
                 transition duration-300
-                 ease-in-out">Add to Cart</button>
+                 ease-in-out" onClick={(e) => {
+                e.preventDefault()
+                addToCartHandler({ e, product })
+              }} disabled={cartLoading ? true : false}>{cartLoading ? "Adding to cart..." : isAddedToCart?.status === 200 ? "Added to cart" : "Add to cart"}</button>
           </section>
 
 

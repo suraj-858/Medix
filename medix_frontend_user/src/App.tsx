@@ -23,9 +23,14 @@ import Main_Category from './components/Main_Category'
 import Sub_Category from './components/Sub_Category'
 import { useEffect } from 'react'
 import { useAppDispatch } from './redux/store'
-import { fetchAllProduct } from './redux/slice/productSlice'
+import {  fetchAllProduct, fetchLatestProduct } from './redux/slice/productSlice'
 import { fetchCategory } from './redux/slice/categorySlice'
 import { getUserCart } from './redux/slice/cartSlice'
+import SearchResult from './pages/SearchResult'
+import OrderPage from './pages/OrderPage'
+import Order_History from './components/Order_History'
+import Recent_Order from './components/Recent_Order'
+import { fetchOrder } from './redux/slice/orderSlice'
 
 const ROLES = {
   'User': 2001,
@@ -40,16 +45,20 @@ const App = () => {
 
     let isCanceled = false
     if(!isCanceled){
-      console.log('hello');
-      
+      productDispatch(fetchLatestProduct())
       productDispatch(fetchAllProduct())
       productDispatch(fetchCategory())
       customerId && productDispatch(getUserCart(customerId)) 
+      customerId && productDispatch(fetchOrder(customerId))
+
+    }
+    return () =>{
+      isCanceled = true
     }
   }, [])
   
   return (
-      <Routes>
+      <Routes >
               <Route path='/' element={<Container />}>
 
               //general routes for every user
@@ -72,6 +81,11 @@ const App = () => {
                     <Route index element={<User_Main_Shop />} />
                     <Route path='product_page/:id' element={<ProductPage />} />
                     <Route path='cart' element = {<CartPage/>} />
+                    <Route path='search' element = {<SearchResult/>} />
+                    <Route path='order/*' element = {<OrderPage/>} >
+                      <Route index element = {<Recent_Order/>}/>
+                      <Route path='order_history' element = {<Order_History/>} />
+                    </Route>
                   </Route>
             //Protected routes for Editor
             <Route path='/dashboard_editor/*' element = {<RequireAuth allowedRoles={[ROLES.Editor]} />} >

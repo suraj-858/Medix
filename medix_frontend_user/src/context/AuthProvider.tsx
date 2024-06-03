@@ -1,6 +1,6 @@
 import { createContext,ReactNode, useState } from "react";
 
-import { Auth, UserContextInterface, cartLoading, isProducType, selectSubCategoryName, selectedCatIdType } from "../Types/authType";
+import { Auth, UserContextInterface, cartLoading, isOrderPlacedType, isProducType, selectSubCategoryName, selectedCatIdType } from "../Types/authType";
 
 const defaultState  = {
   auth: {
@@ -13,6 +13,8 @@ const defaultState  = {
     state: false,
     message: ""
   },
+  isOrderPlaced: false,
+  setIsOrderPlaced: (isOrderPlaced: isOrderPlacedType) => isOrderPlaced,
   selectedCatId: "",
   setSeletedCatId : (selectedCatId: selectedCatIdType) => selectedCatId,
   setIsProduct: (isProduct: isProducType) => isProduct,
@@ -47,10 +49,11 @@ export default function AuthProvider({children}: UserProviderProps)
 
   const [selectedCatId, setSeletedCatId] = useState<selectedCatIdType>("");
   const [selectSubCategoryName, setSelectSubCategoryName] = useState("")
-  const [cartLoading , setCartLoading] = useState(false)
+  const [cartLoading , setCartLoading] = useState(false);
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
   return (
-    <authContext.Provider value={{auth , setAuth, isProduct, setIsProduct, selectedCatId, setSeletedCatId, setSelectSubCategoryName, selectSubCategoryName, setCartLoading, cartLoading}}>
+    <authContext.Provider value={{auth , setAuth, isProduct, setIsProduct, selectedCatId, setSeletedCatId, setSelectSubCategoryName, selectSubCategoryName, setCartLoading, cartLoading, setIsOrderPlaced, isOrderPlaced}}>
       {children}
       </authContext.Provider>
   )

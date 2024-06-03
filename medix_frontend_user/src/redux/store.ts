@@ -3,13 +3,15 @@ import { categorySlice, removeCategorySlice} from './slice/categorySlice'
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 import {  productSlice, userProductSlice } from './slice/productSlice'
 import { createCartSlice } from './slice/cartSlice';
+import { orderSlice } from './slice/orderSlice';
 
 const rootReducer = combineReducers({
   category: categorySlice.reducer, 
   removeCategory: removeCategorySlice.reducer, 
   Product: productSlice.reducer,
   GetProduct: userProductSlice.reducer,
-  createCart: createCartSlice.reducer
+  createCart: createCartSlice.reducer,
+  getOrder: orderSlice.reducer
 
 
 })

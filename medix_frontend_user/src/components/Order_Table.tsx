@@ -32,7 +32,7 @@ const Order_Table = () => {
                         <td className="border-[3px] py-2">{order.TotalPrice}</td>
                         <td  className="border-[3px] py-2">{order.Quantity}</td>
                         <td  className="border-[3px] py-2">{order.TotalPrice}</td>
-                        <td  className="border-[3px] py-2">{order.State}</td>
+                        <td  className={`border-[3px] py-2 ${order.State === "Canceled" ? "text-red-500": order.State === "Delivered" ? " text-green-500" : " text-blue-500"}`}>{order.State}</td>
                     </tr>
                     )
                 })}

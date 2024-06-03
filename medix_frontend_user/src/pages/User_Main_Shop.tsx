@@ -12,25 +12,22 @@ const User_Main_Shop = () => {
   const { selectSubCategoryName } = useContext(authContext);
   const productDispatch = useAppDispatch();
  
-
   useEffect(() => {
     let isCanceled = false
-
     if (!isCanceled) {
       productDispatch(allProduct())
     }
-
     return () => {
       isCanceled = true
     }
-
   }, [productDispatch])
+  
   return (
     <div className="z-0 flex justify-center flex-col mx-auto px-5">
       <Featured_slider />
       <div className="flex flex-col">
-        <h1 className=" text-2xl font-semi-bold my-1">Browse Categories</h1>
-        <hr className="mb-3 w-[20%] border-0 h-1 min-w-[250px] bg-slate-500 bg-gradient-to-r from-blue-600 to-cyan-500" />
+        <h1 className=" text-2xl md:text-left text-center font-semi-bold my-1">Browse Categories</h1>
+        <hr className="mb-3 md:w-[20%] border-0 h-1 md:min-w-[250px] w-full bg-slate-500 bg-gradient-to-r from-blue-600 to-cyan-500" />
         <div className="lg:flex">
           <Category_desktop />
           <Cat_Result selectedSubCategory={selectSubCategoryName} />

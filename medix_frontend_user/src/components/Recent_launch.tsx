@@ -2,20 +2,19 @@ import {  useMemo, useRef } from "react";
 import Product_cat from "./Product_cat"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import 'react-multi-carousel/lib/styles.css';
-import Loader from "./Loader";
 import {  useAppSelector } from "../redux/store";
 import { productsType } from "../Types/authType";
+import SkeletonItem from "./Skeleton_Loader/SkeletonItem";
 
 
 
 const Recent_launch = () => {
 
   const { stableProduct, isloading, productData } = useAppSelector(state => state.GetProduct)
-
+  
     
   const memonizedStableProduct = useMemo(():productsType => stableProduct.slice(0, 10), [stableProduct])
   const memonizedproductData = useMemo(():productsType => productData.slice(0, 10), [productData])
-
 
   const carouselContainer = useRef<HTMLDivElement>(null);
 
@@ -53,7 +52,13 @@ const Recent_launch = () => {
                 </div>
             })
            : isloading ?
-            <div className='w-[100%] flex justify-center items-center'><Loader /></div> 
+            <div className='w-[100%] flex justify-around items-center'>
+              <SkeletonItem result = {false}/>
+              <SkeletonItem result = {false}/>
+              <SkeletonItem result = {false}/>
+              <SkeletonItem result = {false}/>
+
+            </div> 
 
            : memonizedproductData.length >=1 ?
            memonizedproductData.map((product, index) => {

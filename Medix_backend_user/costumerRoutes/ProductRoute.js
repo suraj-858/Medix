@@ -21,4 +21,8 @@ router.get('/userProducts/:id',verifyJWT, productController.getCreatorsProducts)
 
 router.get('/get_all_products', productController.getAllProducts);
 
+router.get('/get_latest_products', productController.getLatestProducts)
+
+router.get('/search_result', productController.searchProducts)
+
 module.exports = router;

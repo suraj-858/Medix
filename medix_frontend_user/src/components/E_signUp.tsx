@@ -55,7 +55,9 @@ const E_signUp = () => {
 
   return (
     <div className="p-3 flex flex-col items-center justify-center h-full">
-        <h1 className="lg:text-3xl md:text-2xl my-1 font-semibold">Sign Up form</h1>
+         <div className='flex items-center md:mb-8 justify-center'>
+        <h1 className='md:text-2xl text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-800 via-blue-600 to-cyan-400'>Sign up  form</h1>
+      </div>
         
            <section className="md:flex w-[100%] ">
            <form className="mx-5 md:w-[50%]"> 

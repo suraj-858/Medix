@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "../api/axios";
 import Toast from "./Toast";
 import { AxiosResponse } from "axios";
-import { fetchCategory } from "../redux/slice/categorySlice";
+import { CategoryHolder, fetchSubCategory, removeCreatorCategory } from "../redux/slice/categorySlice";
 
 
 const Main_Category = () => {
@@ -13,8 +13,17 @@ const Main_Category = () => {
     const categoryDispatch = useAppDispatch();
 
     //fetching category response
-    const { data, isLoading } = useAppSelector(state => state.category)
-    const memonizedCategoryData = useMemo(() => data, [data])
+    const { categoryData, userCategory } = useAppSelector(state => state.category)
+
+    useEffect(() =>{
+        let isCanceled = false;
+        if(!isCanceled){
+            categoryDispatch(CategoryHolder())
+
+        }
+    }, [categoryData, userCategory])
+
+    const memonizedCategoryData = useMemo(() => userCategory, [userCategory])
 
 
     const [removeCatResponse, setRemoveCatResponse] = useState<AxiosResponse>()
@@ -82,6 +91,8 @@ const Main_Category = () => {
 
                         return <tr key={categoryIndex} className=" text-center h-[80px] cursor-pointer hover:bg-slate-200" onClick={() => {
                             const selectedCatId = category?._id;
+                            console.log(selectedCatId);
+                            categoryDispatch(fetchSubCategory(selectedCatId))
                             navigate("/dashboard_editor/categories/sub_category", { state: selectedCatId })
 
                         }}>
@@ -99,7 +110,7 @@ const Main_Category = () => {
                                         if (category) {
                                             const removeDataRes = await handleRemoveCategory(category?._id)
                                             if (removeDataRes.status === 200) {
-                                                categoryDispatch(fetchCategory())
+                                                categoryDispatch(removeCreatorCategory(removeDataRes.data.response))
                                                 setRemoveCatResponse(removeDataRes)
                                             }
                                         }

@@ -3,6 +3,8 @@ import Navbar_loggedIn from '../components/Navbar_loggedIn'
 import { Outlet, Navigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 import Footer from '../components/Footer'
+import { useContext } from 'react'
+import { authContext } from '../context/AuthProvider'
 
 type allowedRolesProps = {
   allowedRoles: number[]
@@ -12,9 +14,8 @@ type allowedRolesProps = {
 const Home_user = ({allowedRoles}:allowedRolesProps) => {
   const {auth} = useAuth();
   const roles = sessionStorage.getItem("Roles");
-
   var user:number[] = [];
-
+  const {isOrderPlaced} = useContext(authContext);
   if(roles){
     const userRoles = parseInt(roles)
     user = [userRoles]
@@ -22,13 +23,14 @@ const Home_user = ({allowedRoles}:allowedRolesProps) => {
   
 
   return (
-    <div className='relative'>
-          <Navbar_loggedIn />
-          
+    <div className='relative w-[100%]'>
+          <Navbar_loggedIn /> 
+             {isOrderPlaced && <div style={{height:"calc(100% - 64px"}} className="absolute bg-black opacity-50 w-[100%] z-10"></div>}
             <ContentWrapper>
+
               {user.find((role) => allowedRoles.includes(role))
               ?
-               <div className="w-full">
+               <div className="w-[100%] ">
               <Outlet/>
                </div>
               :auth?.email ?

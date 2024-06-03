@@ -94,17 +94,17 @@ const createSubCategory = asyncHandler(async (req, res) => {
                 category: categoryId,
                 name: subCatName
             }
-            const response = await SubCategory.create(subCategoryDetails)
-            if (response) {
-                console.log(response._id)
+            const subCatResponse = await SubCategory.create(subCategoryDetails)
+            if (subCatResponse) {
+                console.log(subCatResponse._id)
                 const updateSubCat = {
                         subCategoryName: subCatName,
-                        subCategoryId: response?._id
+                        subCategoryId: subCatResponse?._id
                 }
 
                 await Category.findByIdAndUpdate(categoryId, {$push:{subCategory: updateSubCat}}, {new: true}).then(response => {
                     if (response) {
-                        res.status(201).json({ response, message: "Sub category added successfully" })
+                        res.status(201).json({ subCatResponse, message: "Sub category added successfully" })
                     }
                 }).catch(error => {
                     res.status(400).json({ error, message: "Error occured creating sub category" })
@@ -169,15 +169,34 @@ const removeProduct = asyncHandler(async () => {
     try {
 
     } catch (error) {
-        res.status(500).json({ error, message: "Internal Server Error" })
+        res.status(500).json({ error, message: "Internal Server Error"})
 
     }
 
 })
 
-const removeSubCategory = asyncHandler(async () => {
+const removeSubCategory = asyncHandler(async (req, res) => {
 
     try {
+        const subCatId = req.params.id;
+        const subCatDeletedResponse = await SubCategory.findByIdAndDelete({_id: subCatId})
+        console.log(subCatDeletedResponse);
+        if(subCatDeletedResponse){
+            await Category.findOneAndUpdate(
+                { "subCategory.subCategoryId": subCatId },
+                { "$pull": { "subCategory": { "subCategoryId": subCatId } } },
+                { new: true })
+            .then(response =>{
+                console.log(response);
+                res.status(200).send(response)
+            })
+            .catch(error =>{
+                res.status(400).send(error)
+                console.log(error);
+            })
+        }else{
+            res.status(404).send("Sub category doesn't exists")
+        }
 
     } catch (error) {
         res.status(500).json({ error, message: "Internal Server Error" })

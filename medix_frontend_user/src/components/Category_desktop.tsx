@@ -19,7 +19,7 @@ const Category_desktop = () => {
   }, [categoryData])
 
   return (
-    <div className="flex relative min-w-[260px] z-10">
+    <div className="flex relative z-10">
       <div className="lg:block hidden">
         <Cat_sideExp isloading = {isLoading}/>
       </div>

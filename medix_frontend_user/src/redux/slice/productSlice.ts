@@ -7,12 +7,20 @@ export interface productType {
     isloading : boolean,
     productData: productModel[],
     stableProduct: productModel[],
+    latestProduct:{
+        stableProduct: productModel[],
+        nextIndex: string
+    },
     isError: boolean,
 }
 
 const ProductInitialState: productType ={
     isloading: false, 
     stableProduct: [],
+    latestProduct:{
+        stableProduct:[],
+        nextIndex:""
+    },
     productData:[],
     isError: false
 }
@@ -74,6 +82,18 @@ export const fetchAllProduct = createAsyncThunk('FetchAllProduct', async() =>{
     }
 })
 
+export const fetchLatestProduct = createAsyncThunk('FetchLatestProduct', async() =>{
+
+    try {
+        const response = await axios.get(`/product/get_latest_products`)
+        if(response) return await response?.data
+        
+    } catch (error) {
+        return await error
+        
+    }
+})
+
 export const userProductSlice = createSlice({
 
     name:'GetProduct',
@@ -81,6 +101,10 @@ export const userProductSlice = createSlice({
     reducers:{
         allProduct: (state) =>{
             state.stableProduct = state.productData
+        },
+        pushLatestProduct:(state, action) =>{
+            state.latestProduct.stableProduct = [...state.latestProduct.stableProduct, ...action.payload.products]
+            state.latestProduct.nextIndex = action.payload.nextIndex
         }
     },
     extraReducers: (builders) =>{
@@ -96,8 +120,22 @@ export const userProductSlice = createSlice({
         builders.addCase(fetchAllProduct.rejected, (state) =>{
             state.isError = true
         })
+
+        builders.addCase(fetchLatestProduct.pending, (state) =>{
+            state.isloading = true
+        })
+
+        builders.addCase(fetchLatestProduct.fulfilled, (state, action) =>{
+            state.isloading = false
+            state.latestProduct.stableProduct = action.payload.products
+            state.latestProduct.nextIndex = action.payload.nextIndex
+        })
+
+        builders.addCase(fetchLatestProduct.rejected, (state) =>{
+            state.isError = true
+        })
     }
 })
 
 export const {allUserProduct} = productSlice.actions
-export const {allProduct} = userProductSlice.actions
+export const {allProduct, pushLatestProduct} = userProductSlice.actions

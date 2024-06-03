@@ -10,7 +10,7 @@ router.post('/create_sub_category/:id', categoryController.createSubCategory);
 router.post('/update_sub_category/:id', categoryController.updateSubCategory);
 router.post('add_product', categoryController.addProduct);
 router.delete('/remove_product', categoryController.removeProduct);
-router.delete('/remove_sub_category', categoryController.removeSubCategory);
+router.post('/remove_sub_category/:id', categoryController.removeSubCategory);
 
 
 //category retrival

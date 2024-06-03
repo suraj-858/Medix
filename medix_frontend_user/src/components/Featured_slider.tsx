@@ -39,7 +39,7 @@ const Featured_slider = () => {
     }, [currentIndex]);
 
     return (
-        <div className=" max-w-[1800px] lg:h-[680px] h-[500px] w-full m-auto py-3  relative group flex justify-center z-0">
+        <div className=" max-w-[1800px] lg:h-[680px] h-[400px] w-full m-auto py-3  relative group flex justify-center z-0">
             <div className="h-[100%] w-[100%] flex overflow-hidden rounded-lg">
 
                 {slides.map((slide, slideIndex) => {
