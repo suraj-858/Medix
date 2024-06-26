@@ -72,7 +72,7 @@ const userUpdate = asyncHandler(async(req, res) =>{
                 res.status(401).json({error, message: "Error updating username"})
             })
 
-        }
+        }   
         if(password){
 
             const salt = bcrypt.genSaltSync(10);
