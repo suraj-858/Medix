@@ -89,8 +89,6 @@ const updateProduct = asyncHandler(async(req, res) =>{
 
         if(response){
 
-            console.log(response.productImageDetails);
-
             if(productImage){
 
                 const publicId = response?.productImageDetails?.publicId;
