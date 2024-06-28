@@ -1,8 +1,7 @@
 import ContentWrapper from "./ContentWrapper"
 import Recent_launch from "./Recent_launch"
-import { productArrayPropsType } from "../Types/authType"
 
-const Suggestion_Cart = ({productArray}:productArrayPropsType) => {
+const Suggestion_Cart = () => {
 
   return (
     <div className="my-6">
@@ -12,7 +11,7 @@ const Suggestion_Cart = ({productArray}:productArrayPropsType) => {
                 <hr className="max-w-[350px] border-0 h-[4px] bg-gradient-to-r from-blue-600 to-cyan-400 rounded-se-md" />
             </div>
             <section>
-                <Recent_launch productArray={productArray} />
+                <Recent_launch />
             </section>
         </ContentWrapper>
     </div>

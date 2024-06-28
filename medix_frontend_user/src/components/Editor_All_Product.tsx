@@ -16,7 +16,7 @@ interface refHandlerProps {
 
 const Editor_All_Product = ({ setScrollTop, setSingleProducts, data, isLoading }: refHandlerProps) => {
 
-  const { productData, isloading } = useAppSelector(state => state.Product)
+  const { productData } = useAppSelector(state => state.Product)
 
   const monthNames = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',

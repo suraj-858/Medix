@@ -44,7 +44,8 @@ const Featured_slider = () => {
 
                 {slides.map((slide, slideIndex) => {
 
-
+                    console.log(slide);
+                    
                     return (
                         <div key={slideIndex}
                             style={{
@@ -74,7 +75,8 @@ const Featured_slider = () => {
             <div className=" flex items-center justify-center gap-3 mx-1 bottom-5 absolute  -translate-x-[-50%] -translate-y-0 right-[50%] py-2">
                 {slides.map((slide, slideIndex) => {
 
-
+                    console.log(slide);
+                    
                     return (
 
                         <div key={slideIndex}

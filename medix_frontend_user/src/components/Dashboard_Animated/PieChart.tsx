@@ -14,21 +14,13 @@ const PieChart = () => {
         
     ]
       };
-      const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-              position: 'bottom', // Place legend at the bottom
-            },
-          },
-      }
 
     
       ChartJS.register(ArcElement, CategoryScale, Tooltip, Legend);
     
   return (
     <div className="w-[240px] h-[240px] my-4 ">
-        <Pie data={data} options={options} />
+        <Pie data={data}  />
     </div>
   )
 }

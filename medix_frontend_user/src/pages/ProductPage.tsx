@@ -2,7 +2,6 @@ import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import Suggestion_Cart from "../components/Suggestion_Cart";
 import ContentWrapper from "../components/ContentWrapper";
-import productArray from "../assets/Data/MedicineData";
 import { singleProductsType } from "../Types/authType";
 import { useLocation, useNavigate } from "react-router-dom";
 import ReactImageMagnify from 'react-image-magnify';
@@ -34,7 +33,8 @@ const ProductPage = () => {
   const [inputValue, setInputValue] = useState('');
   const [imageExpand, setImageExpand] = useState(false);
   const originalPrice = 2000;
-
+  console.log(imageExpand);
+  
   const discount = 20
   const bulkRef = useRef<any>();
 
@@ -398,7 +398,7 @@ const ProductPage = () => {
         </div>
       </div>
       <ContentWrapper>
-        <Suggestion_Cart productArray={productArray} />
+        <Suggestion_Cart />
       </ContentWrapper>
 
     </div>

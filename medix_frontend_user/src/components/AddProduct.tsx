@@ -19,7 +19,7 @@ type subCategoryTypes = {
   subCategoryName: string
 }[]
 
-const AddProduct = ({ ProductRef, scrollTop, singleProduct, data, isloading }: productRefProps) => {
+const AddProduct = ({ ProductRef, scrollTop, singleProduct, data }: productRefProps) => {
 
   const { isProduct, setIsProduct } = useContext(authContext)
   const [productName, setProductName] = useState<string>("haha");

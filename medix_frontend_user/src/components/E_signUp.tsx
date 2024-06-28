@@ -14,7 +14,8 @@ const E_signUp = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
+    console.log(confirmPassword);
+    
     const [isErrorMessage, setIsErrorMessage] = useState("");
 
 
