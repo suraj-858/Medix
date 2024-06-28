@@ -4,7 +4,6 @@ import Suggestion_Cart from "../components/Suggestion_Cart";
 import ContentWrapper from "../components/ContentWrapper";
 import { singleProductsType } from "../Types/authType";
 import { useLocation, useNavigate } from "react-router-dom";
-import ReactImageMagnify from 'react-image-magnify';
 import ScrollToTop from "../components/ScrollToTop";
 import axios from "../api/axios";
 import { authContext } from "../context/AuthProvider";
@@ -89,7 +88,6 @@ const ProductPage = () => {
 
     }
   }
-  const bgUrl = product && product?.productImageDetails?.ImageURL;
 
   const [isLoading, setIsLoading] = useState(false);
   const { setIsOrderPlaced, isOrderPlaced } = useContext(authContext);
@@ -162,7 +160,7 @@ const ProductPage = () => {
   return (
     <div className=" my-4 w-full mx-auto flex justify-center items-center flex-col ">
       <ScrollToTop />
-      {isOrderPlaced && <img className="absolute w-[100%] max-h-[500px] top-[20%] object-contain object-center z-10" src={gifLoader} placeholder="successfully placed gif image" />}
+      {isOrderPlaced && <img className="absolute w-[100%] max-h-[500px] top-[20%] object-contain object-center z-10" src={gifLoader} />}
       <div className="md:flex justify-evenly md:w-[80%] mx-3 relative ">
 
         <section className={`md:mx-6 md:w-[350px] md:h-[400px] w-full max-w-[400px] bg-transparent flex-shrink-0 mb-5 cursor-pointer`}
@@ -170,23 +168,7 @@ const ProductPage = () => {
           onMouseLeave={() => { setImageExpand(false) }}
         >
           <div className="h-full w-full">
-
-            <ReactImageMagnify {...{
-              smallImage: {
-                alt: 'Wristwatch by Ted Baker London',
-                isFluidWidth: true,
-                src: bgUrl
-              },
-              largeImage: {
-                src: bgUrl,
-                width: 1800,
-                height: 1200,
-              },
-              enlargedImageContainerDimensions: {
-                width: 700,
-                height: 600
-              }
-            }} />
+            
           </div>
         </section>
 
