@@ -5,7 +5,7 @@ const multer = require('multer');
 const verifyJWT = require('../Middleware/VerifyJwt');
 
 const storage = multer.diskStorage({
-    destination: './tmp/',
+    destination: './tmp',
     filename: (req, file, cb) => {
       cb(null, file.fieldname + '-' + Date.now());
     },
