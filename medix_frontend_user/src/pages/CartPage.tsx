@@ -47,7 +47,7 @@ const CartPage = () => {
   return (
     <ContentWrapper>
       <div className=" mt-6 md:mx-0 lg:px-5 flex w-[100%]  lg:justify-evenly flex-wrap">
-        { isOrderPlaced && <img className="absolute w-[100%] h-[100%] object-contain object-center z-10" src={gifLoader} placeholder="successfully placed gif image" />}
+        { isOrderPlaced && <img className="absolute w-[100%] h-[100%] object-contain object-center z-10" src={gifLoader}/>}
         <ScrollToTop/>
         <div className=" lg:w-[70%] w-full">
           <div>
