@@ -15,7 +15,8 @@ cloudinary.config({
 const createProduct = asyncHandler( async(req, res) =>{
 
     try {
-        const {productName, 
+        const {
+            productName, 
             price, 
             discount, 
             category, 
@@ -64,6 +65,7 @@ const createProduct = asyncHandler( async(req, res) =>{
     } catch (error) {
         res.status(500).json({message:"Internal server error"});
         console.log(error);
+        throw error;
         
     }
 })
