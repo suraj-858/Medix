@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import slider_01 from '../assets/Slider_image/slider_01.jpg'
-import slider_02 from '../assets/Slider_image/slider_02.jpg'
-import slider_03 from '../assets/Slider_image/slider_03.jpg'
-import slider_04 from '../assets/Slider_image/slider_04.webp'
+import slider_02 from '../assets/Slider_image/slider_02.jpeg'
+import slider_03 from '../assets/Slider_image/slider_03.jpeg'
+import slider_04 from '../assets/Slider_image/slider_04.jpg'
 import slider_05 from '../assets/Slider_image/slider_05.jpg'
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
