@@ -25,7 +25,7 @@ const AppStore = () => {
             className="space-y-6 max-w-xl mx-auto"
           >
             <h1 className="text-2xl text-center sm:text-left sm:text-4xl font-semibold ">
-              Read Books at Your Fingertips
+              Mobile Application coming soon!
             </h1>
             <div className="flex flex-wrap justify-center items-center">
               <a href="#">

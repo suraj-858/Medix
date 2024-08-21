@@ -23,18 +23,16 @@ const Banner = () => {
               {/* text content section */}
               <div className="flex flex-col justify-center gap-6 sm:pt-0">
                 <h1 className="text-3xl sm:text-4xl font-bold">
-                  Library at your fingertips
+                  Design your Space with us
                 </h1>
                 <p className="text-sm text-gray-500 tracking-wide leading-5">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Eaque reiciendis inventore iste ratione ex alias quis magni at
-                  optio
+                  We deliver top class furnishing and flooring items to provide exclusivity to ur space. <br/> Visualize your space with matching furniture items you imagine
                   <br />
                 </p>
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-4">
                     <GrSecure className="text-4xl h-12 w-12 shadow-sm p-4 rounded-full bg-violet-100 dark:bg-violet-400" />
-                    <p>Quality Books</p>
+                    <p>Quality Products</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <IoFastFood className="text-4xl h-12 w-12 shadow-sm p-4 rounded-full bg-orange-100 dark:bg-orange-400" />
@@ -46,7 +44,7 @@ const Banner = () => {
                   </div>
                   <div className="flex items-center gap-4">
                     <GiFoodTruck className="text-4xl h-12 w-12 shadow-sm p-4 rounded-full bg-yellow-100 dark:bg-yellow-400" />
-                    <p>Get Offers on Books</p>
+                    <p>Get Offers on Furniture Items</p>
                   </div>
                 </div>
               </div>

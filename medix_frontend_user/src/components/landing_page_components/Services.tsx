@@ -1,30 +1,30 @@
 
 import Img1 from "../../assets/Images/books/book1.png";
-import Img2 from "../../assets/Images/books/book2.png";
-import Img3 from "../../assets/Images/books/book3.png";
+import Img2 from "../../assets/Images/books/sofa.png";
+import Img3 from "../../assets/Images/books/galaicha.png";
 import { FaStar } from "react-icons/fa";
 
 const ServicesData = [
   {
     id: 1,
     img: Img1,
-    title: "His Life",
+    title: "Bar Chair",
     description:
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Bar chair Delivers the most comfort experience in your partying area premium cloths and metal frames provides the exclusive looks ",
   },
   {
     id: 2,
     img: Img2,
-    title: "Who's there",
+    title: "two seater red sofa",
     description:
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Build from premium Frabics and materials provides exclusive look and feel",
   },
   {
     id: 3,
     img: Img3,
-    title: "Lost Boy",
+    title: "Galaicha",
     description:
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Turkish Galaicha provides the premium and luxury experience",
   },
 ];
 
@@ -38,7 +38,7 @@ const Services = () => {
             <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary ">
               Trending Books
             </p>
-            <h1 className="text-3xl font-bold">Best Books</h1>
+            <h1 className="text-3xl font-bold">Best Products</h1>
             <p className="text-xs text-gray-400">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               Perspiciatis delectus architecto error nesciunt,

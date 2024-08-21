@@ -10,21 +10,21 @@ const ImageList = [
     {
       id: 1,
       img: Book1,
-      title: "His Life will forever be Changed",
+      title: "Premium Dining Chair",
       description:
         "lorem His Life will forever be Changed dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
       id: 2,
       img: Book2,
-      title: "Who's there",
+      title: "Sofa Comfort Chair",
       description:
         "Who's there lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
       id: 3,
       img: Book3,
-      title: "Lost Boy",
+      title: "Single seater cusion chair",
       description:
         "Lost Boy, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
