@@ -17,7 +17,7 @@ app.listen(port, () =>{
 })
 
 app.options('*', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://user-medix.vercel.app/');
+    res.setHeader('Access-Control-Allow-Origin', 'https://user-medix.vercel.app');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, DELETE'); // Add other methods if needed
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type ,auth-token');
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.use(cors({
-  origin: 'https://user-medix.vercel.app/',
+  origin: 'https://user-medix.vercel.app',
   methods:"GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,  
   allowedHeaders:'auth-token, Content-Type'
@@ -37,7 +37,7 @@ app.use(cors({
 
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://user-medix.vercel.app/');
+    res.setHeader('Access-Control-Allow-Origin', 'https://user-medix.vercel.app');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
   });
