@@ -14,10 +14,8 @@ const C_login_01 = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [isUserConfirmed, setIsUserConfirmed] = useState(true);
 
-
   const emailRef = useRef<any>();
   const errorRef = useRef<any>();
-
 
   useEffect(() => {
     emailRef?.current?.focus()
@@ -75,7 +73,7 @@ const C_login_01 = () => {
             value={emailValue}
             ref={emailRef}
             autoComplete='off'
-            onChange={(e) => { setEmailValue(e.target.value) }}
+            onChange={(e) => { setEmailValue(e.target.value)}}
           />
 
           <span className="md:text-base lg:text-xl text-sm text-slate-500 text-opacity-80 absolute left-0 md:top-4 top-2 md:mx-5 mx-3  px-1 transition duration-200 input-text">Email</span>
@@ -87,7 +85,7 @@ const C_login_01 = () => {
             className="md:h-14 h-10 w-[100%] px-5 pb-1 flex justify-center lg:text-xl md:text-base text-sm border-slate-500 border-[2px] focus:border-[3px] valid:border-[3px] rounded-md border-opacity-50 outline-none focus:border-blue-500 valid:border-blue-500  transition duration-100" required
             value={passwordValue}
             autoComplete='off'
-            onChange={(e) => { setPasswordValue(e.target.value) }}
+            onChange={(e) => { setPasswordValue(e.target.value)}}
           />
 
           <span className="md:text-base lg:text-xl text-sm  text-slate-500 text-opacity-80 absolute left-0 md:top-4 top-2 md:mx-5 mx-3  px-1 transition duration-200 input-password ">Password</span>
@@ -114,6 +112,8 @@ const C_login_01 = () => {
               const userId = response?.data?.userId;
               const accessToken = response.data.accessToken;
               const username = response?.data?.username;
+              console.log(username);
+              
 
               setAuth({ email: emailValue, password: passwordValue, roles: role, accessToken: accessToken })
               sessionStorage.setItem('username', username)

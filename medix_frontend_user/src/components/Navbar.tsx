@@ -5,7 +5,7 @@ const Navbar = () => {
 
 
     return (
-        <div className=' h-16 shadow-xl flex items-center justify-evenly'>
+        <div className=' h-16 shadow-xl flex items-center justify-evenly bg-gray-100'>
             <div className="h-12 w-12 bg-slate-400">
 
             </div>

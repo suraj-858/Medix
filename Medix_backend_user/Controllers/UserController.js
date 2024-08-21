@@ -101,15 +101,17 @@ const userUpdate = asyncHandler(async(req, res) =>{
 const editorRegister = asyncHandler(async(req, res) =>{
 
     try {
-        const {email, password, companyName, address, Liscense, phoneNumber, } = req.body;
+        const {email, password, companyName, address, Liscense, phoneNumber,username } = req.body;
 
-        if(email && password && companyName && address && phoneNumber && Liscense){
+        if(email && password && companyName && address && phoneNumber && Liscense && username){
             
             const salt = bcrypt.genSaltSync(10);
             const hashedPassword = bcrypt.hashSync(password, salt);
             const role = 1984;
+            console.log(username);
             
             const editorDetails = {
+                username: username,
                 email: email, 
                 password: hashedPassword, 
                 roles: role,

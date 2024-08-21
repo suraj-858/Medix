@@ -126,7 +126,7 @@ const Recent_Order = () => {
                         </section>
                     );
                 })
-                : <img className="max-h-[500px] w-full m-4 object-contain object-center" src={memonizedOrderData[0].state === "canceled" ? isCanceledImagePrev  : noProduct} alt="No Product" />
+                : <img className="max-h-[500px] w-full m-4 object-contain object-center" src={memonizedOrderData[0]?.state === "canceled" ? isCanceledImagePrev  : noProduct} alt="No Product" />
             }
         </div>
     )

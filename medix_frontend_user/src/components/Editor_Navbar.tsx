@@ -18,7 +18,7 @@ const Editor_Navbar = ({hideSideBar, setHideSideBar}: sideBarProps) => {
       {hideSideBar? 
         <RxHamburgerMenu />
       :
-<   RxCross2 />
+<RxCross2 />
     }
 
     </div>
@@ -29,7 +29,7 @@ const Editor_Navbar = ({hideSideBar, setHideSideBar}: sideBarProps) => {
           </div>
           <div className="md:mx-4  mx-2 flex justify-center items-center">
             <span className="mx-3 md:text-xl text-md text-white"><FaUserAlt /></span>
-            <h1 className="text-white font-semibold md:text-xl text-base">Suraj Bishwakarma</h1>
+            <h1 className="text-white font-semibold md:text-xl text-base">{sessionStorage.getItem('username')}</h1>
           </div>
       </div>
 

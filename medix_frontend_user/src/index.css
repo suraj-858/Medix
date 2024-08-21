@@ -4,7 +4,6 @@
 
 
 :root {
-
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -19,4 +18,31 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
+}
+
+@layer utilities {
+  .duration-high {
+    @apply transition-all duration-300 ease-in-out;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin {
+  animation: spin 40s linear infinite;
+}
+
+/* smooth scroll*/
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  @apply bg-blue-600 text-white;
 }

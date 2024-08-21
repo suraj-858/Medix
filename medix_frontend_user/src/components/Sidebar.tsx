@@ -1,9 +1,10 @@
 import { MdDashboard } from "react-icons/md";
-import { FaMoneyBillWave } from "react-icons/fa";
 import { FaBox } from "react-icons/fa";
 import { BiLogOutCircle } from "react-icons/bi";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdCategory } from "react-icons/md";
+import { useContext } from "react";
+import { authContext } from "../context/AuthProvider";
 
 
 interface sideBarProps {
@@ -12,6 +13,8 @@ interface sideBarProps {
 }
 
 const Sidebar = ({hideSideBar}: sideBarProps) => {
+    const {setAuth} = useContext(authContext);
+    const navigate = useNavigate();
     const location = useLocation();
 
 
@@ -45,13 +48,16 @@ const Sidebar = ({hideSideBar}: sideBarProps) => {
             <h1 className="md:text-xl text-sm ">Categories</h1>
         </div>
         </Link>
-        
-        <div className=" flex flex-col md:flex-row items-center md:justify-start justify-center my-3 text-slate-300 hover:bg-slate-800/40 hover:text-white md:font-semibold w-[100%] md:py-3 md:pl-3 cursor-pointer">
-            <span className=" md:text-2xl text-3xl md:mr-2 " ><FaMoneyBillWave /></span>
-            <h1 className="md:text-xl text-sm ">Earnings</h1>
-        </div>
 
-        <div className=" flex flex-col md:flex-row items-center md:justify-start justify-center my-3 text-slate-300 hover:bg-slate-800/40 hover:text-white md:font-semibold w-[100%] md:py-3 md:pl-3 cursor-pointer">
+        <div className=" flex flex-col md:flex-row items-center md:justify-start justify-center my-3 text-slate-300 hover:bg-slate-800/40 hover:text-white md:font-semibold w-[100%] md:py-3 md:pl-3 cursor-pointer" onClick={() =>{
+
+                    sessionStorage.setItem('Roles', "")
+                    const sessionTimeout = sessionStorage.getItem('Roles')
+                    if(sessionTimeout === ""){
+                        setAuth({email: "", password: "", roles: 0, accessToken: ""})
+                        navigate('/', {replace: true});
+                    }
+        }}>
             <span className=" md:text-2xl text-3xl md:mr-2 " ><BiLogOutCircle /></span>
             <h1 className="md:text-xl text-sm ">Logout</h1>
         </div>
