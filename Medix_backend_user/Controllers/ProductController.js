@@ -236,11 +236,30 @@ const searchProducts = asyncHandler(async(req, res) =>{
         
     }
 })
+
+const removeProducts = asyncHandler(async(req, res) =>{
+    try {
+        const productId = req.params.id;
+        
+        if(productId){
+            await Product.findByIdAndDelete({_id: productId})
+            .then(response =>{
+                res.status(200).json({response, message: "Product removed successfully"})
+            }).catch(error =>{
+                res.status(400).json({error, message: "Cannot remove error message"})
+            })
+        }
+        
+    } catch (error) {
+        res.status(500).json({error, message:"Invalid Server Error"})
+    }
+})
 module.exports = {
     createProduct, 
     updateProduct,
     getCreatorsProducts, 
     getAllProducts, 
     getLatestProducts, 
-    searchProducts
+    searchProducts,
+    removeProducts
 }

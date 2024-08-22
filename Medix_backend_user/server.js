@@ -15,7 +15,7 @@ const port = process.env.PORT || 4000;
 app.listen(port, () =>{
     console.log("connected to port:", port)
 })
-
+// https://user-medix.vercel.app
 app.options('*', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', 'https://user-medix.vercel.app');
     res.setHeader('Access-Control-Allow-Credentials', 'true');

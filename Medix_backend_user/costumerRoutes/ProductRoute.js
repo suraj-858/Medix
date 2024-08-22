@@ -25,4 +25,6 @@ router.get('/get_latest_products', productController.getLatestProducts)
 
 router.get('/search_result', productController.searchProducts)
 
+router.post('/remove_product/:id', productController.removeProducts)
+
 module.exports = router;

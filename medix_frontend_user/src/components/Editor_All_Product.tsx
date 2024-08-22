@@ -6,6 +6,7 @@ import { singleProductsType } from '../Types/authType';
 import { useAppSelector } from '../redux/store';
 import { categoryModel, productModel } from '../redux/dataType';
 import Loader from './Loader';
+import axios from '../api/axios';
 
 interface refHandlerProps {
   setScrollTop: Dispatch<SetStateAction<boolean>>
@@ -24,6 +25,7 @@ const Editor_All_Product = ({ setScrollTop, setSingleProducts, data, isLoading }
   ];
 
   const [filteredProduct, setFilteredProduct] = useState<productModel[]>()
+  const [isRemovedItemRolling, setIsRemovedItemRolling] = useState<boolean>(false);
 
   useEffect(() =>{
     let isCanceled = false;
@@ -101,7 +103,22 @@ const Editor_All_Product = ({ setScrollTop, setSingleProducts, data, isLoading }
                   product && setSingleProducts(product);
 
                 }}> <MdEditDocument /> Edit</button>
-                <button className='px-3 py-2 my-3 bg-red-500 font-semibold text-white rounded-lg flex justify-evenly hover:bg-red-500/80 transition duration-200 ease-in-out items-center'><MdDelete /> Remove</button>
+                <button className='px-3 py-2 my-3 bg-red-500 font-semibold text-white rounded-lg flex justify-evenly hover:bg-red-500/80 transition duration-200 ease-in-out items-center' onClick={async() =>{
+                  try {
+                    setIsRemovedItemRolling(true)
+                    await axios.post(`/product/remove_product/${product?._id}`).then(response =>{
+                      console.log(response)
+                        setIsRemovedItemRolling(false);
+                    })
+                    .catch(error =>{
+                      console.log(error);
+                      setIsRemovedItemRolling(false);
+                    })
+                  } catch (error) {
+                    console.log(error);
+                    setIsRemovedItemRolling(false);
+                  }
+                }}><MdDelete />{isRemovedItemRolling ? <Loader/> : "Remove"}</button>
               </div>
             </div>)
 
