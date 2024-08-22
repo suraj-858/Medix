@@ -38,6 +38,23 @@ const Editor_All_Product = ({ setScrollTop, setSingleProducts, data, isLoading }
     }
   },[productData])
 
+  const handleRemoveItems = async(product:productModel) =>{
+    try {
+      setIsRemovedItemRolling(true)
+      await axios.post(`/product/remove_product/${product?._id}`).then(response =>{
+        console.log(response)
+          setIsRemovedItemRolling(false);
+      })
+      .catch(error =>{
+        console.log(error);
+        setIsRemovedItemRolling(false);
+      })
+    } catch (error) {
+      console.log(error);
+      setIsRemovedItemRolling(false);
+    }
+  }
+
   return (
     <div className="w-full bg-[#faf8fa] my-5 rounded-md">
       <nav className="h-16 bg-slate-300 rounded-t-md justify-evenly items-center flex">
@@ -104,20 +121,8 @@ const Editor_All_Product = ({ setScrollTop, setSingleProducts, data, isLoading }
 
                 }}> <MdEditDocument /> Edit</button>
                 <button className='px-3 py-2 my-3 bg-red-500 font-semibold text-white rounded-lg flex justify-evenly hover:bg-red-500/80 transition duration-200 ease-in-out items-center' onClick={async() =>{
-                  try {
-                    setIsRemovedItemRolling(true)
-                    await axios.post(`/product/remove_product/${product?._id}`).then(response =>{
-                      console.log(response)
-                        setIsRemovedItemRolling(false);
-                    })
-                    .catch(error =>{
-                      console.log(error);
-                      setIsRemovedItemRolling(false);
-                    })
-                  } catch (error) {
-                    console.log(error);
-                    setIsRemovedItemRolling(false);
-                  }
+                 handleRemoveItems(product);
+                 
                 }}><MdDelete />{isRemovedItemRolling ? <Loader/> : "Remove"}</button>
               </div>
             </div>)
