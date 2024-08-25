@@ -27,9 +27,11 @@ const OrderPage = () => {
             
             <span className="mr-4 cursor-pointer" onClick={(e) => {
               e.preventDefault();
-              if (location.pathname === "/costumer/order") {
+              if (location.pathname === "/costumer/order" || location.pathname === '/dashboard_editor/order') {
+                
                 navigate('order_history')
-              } else {
+              }
+              else {
                 navigate('')
               }
 
