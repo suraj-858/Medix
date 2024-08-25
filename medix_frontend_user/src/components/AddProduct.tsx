@@ -22,11 +22,11 @@ type subCategoryTypes = {
 const AddProduct = ({ ProductRef, scrollTop, singleProduct, data }: productRefProps) => {
 
   const { isProduct, setIsProduct } = useContext(authContext)
-  const [productName, setProductName] = useState<string>("haha");
+  const [productName, setProductName] = useState<string>("Product Name");
   const [Price, setPrice] = useState<string>();
   const [discount, setDiscount] = useState<string>();
-  const [category, setCategory] = useState<string>("hello");
-  const [Sub_Category, setSubCategory] = useState<string>("hello");
+  const [category, setCategory] = useState<string>("Eg: Bed");
+  const [Sub_Category, setSubCategory] = useState<string>("Ex: Low Bed");
   const [composition, setComposition] = useState<string>();
   const [Description, setDescription] = useState<string>();
   const [shipping, setShipping] = useState<string>("free");

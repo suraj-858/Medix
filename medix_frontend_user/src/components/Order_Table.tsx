@@ -1,5 +1,8 @@
+import { useAppSelector } from "../redux/store"
 
 const Order_Table = () => {
+    const {orderData} = useAppSelector(state => state.getOrder);
+    
     const data = [{ order_Id: "34fdf342d", product_Name: "paracetamol", Quantity: "40", TotalPrice: "3422", State: "In Process" }
         , { order_Id: "432rewf3", product_Name: "Flexon", Quantity: "20", TotalPrice: "4422", State: "Canceled" }, {
              order_Id: "3232rew32", product_Name: "D-cold", Quantity: "400", TotalPrice: "333221", State: "Delivered" }, 

@@ -49,6 +49,15 @@ const Sidebar = ({hideSideBar}: sideBarProps) => {
         </div>
         </Link>
 
+        <Link to="/dashboard_editor/order">
+        <div className= {`flex flex-col md:flex-row items-center md:justify-start justify-center my-3 ${location.pathname === '/dashboard_editor/order/*' ? "text-orange-500 hover:text-orange-500": "text-slate-300 hover:text-white"} hover:bg-slate-800/40  md:font-semibold w-[100%] md:py-3 md:pl-3 cursor-pointer`}>
+            <span className=" md:text-2xl text-3xl md:mr-2 " ><MdCategory /></span>
+            <h1 className="md:text-xl text-sm ">Orders</h1>
+        </div>
+        </Link>
+
+
+
         <div className=" flex flex-col md:flex-row items-center md:justify-start justify-center my-3 text-slate-300 hover:bg-slate-800/40 hover:text-white md:font-semibold w-[100%] md:py-3 md:pl-3 cursor-pointer" onClick={() =>{
 
                     sessionStorage.setItem('Roles', "")

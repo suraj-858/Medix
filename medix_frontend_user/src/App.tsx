@@ -95,6 +95,10 @@ const App = () => {
                     <Route index element = {<Main_Category/>}/>
                     <Route path='sub_category' element = {<Sub_Category/>} />
                   </Route>
+                  <Route path='order/*' element = {<OrderPage/>} >
+                      <Route index element = {<Recent_Order/>}/>
+                      <Route path='order_history' element = {<Order_History/>} />
+                    </Route>
             </Route>
 
               //incase of page not found
